@@ -2,37 +2,50 @@ package fibonacci;
 
 public class Fibonacci {
 
+    public static long[] arrFib;
+
     public static void main(String[] args) {
 
         try {
-            int index = Integer.valueOf(args[0]);
-            System.out.println( "findFibonacci(" + args[0] + ") = " + findFibonacciRecursion(index) );
+            int maxIndex = Integer.valueOf(args[0]);
+
+            arrFib = new long[maxIndex + 1];
+
+            //System.out.println( "findFibonacciRecursion(" + maxIndex + ") = " + 
+                //findFibonacciRecursion(maxIndex) );
+
+            System.out.println( "findFibonacciDynamicProgramming(" + maxIndex + ") = " + 
+                findFibonacciDynamicProgramming(maxIndex) );
         } catch (NumberFormatException e) {
             System.out.println("Integer expected");
         }
 
     }
 
-    public static int findFibonacciRecursionAux(int a, int b) {
-        return 0;
+    public static long findFibonacciRecursion(int maxIndex) {
+        if (maxIndex < 0) return 0;
+        if (maxIndex < 2) return 1;
+
+        return findFibonacciRecursion(maxIndex - 1) + 
+            findFibonacciRecursion(maxIndex - 2);
     }
 
-    public static int findFibonacciRecursion(int maxIndex) {
-        if (maxIndex < 1) return 0;
-        if (maxIndex < 3) return 1;
-
-        int result = 1;
-        for(int i = 1; i < maxIndex; i++) {
-            //findFibonacciRecursionAux(result, )
+    public static long findFibonacciDynamicProgramming(int maxIndex) {
+        // Verifica se valor ja foi armazenado
+        if (arrFib[maxIndex] > 0) {
+            return arrFib[maxIndex];
         }
-        return 0;
-    }
+        
+        if (maxIndex <= 0) {
+            return 0;
+        } else if (maxIndex < 3) {
+            arrFib[maxIndex] = 1;
+        } else {
+            long a = findFibonacciDynamicProgramming(maxIndex - 1);
+            long b = findFibonacciDynamicProgramming(maxIndex - 2);
+            arrFib[maxIndex] = a + b;
+        }
 
-    public static int findFibonacciReduce(int index) {
-        return 0;
-    }
-
-    public static int findFibonacciDynamicProgramming(int index) {
-        return 0;
+        return arrFib[maxIndex];
     }
 }
